@@ -699,7 +699,8 @@ uint8_t ModbusMaster::ModbusMasterTransaction(uint8_t u8MBFunction)
   }
   u8ModbusADU[u8ModbusADUSize++] = lowByte(u16CRC);
   u8ModbusADU[u8ModbusADUSize++] = highByte(u16CRC);
-  u8ModbusADU[u8ModbusADUSize] = 0;
+  // Adding ++ on the ESP8266 running RS485 the last byte of the CRC is not being transmitted
+  u8ModbusADU[u8ModbusADUSize++] = 0;
 
   // flush receive buffer before transmitting request
   while (_serial->read() != -1);
